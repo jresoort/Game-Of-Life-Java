@@ -6,13 +6,21 @@ Any dead cell with exactly three live neighbours cells will come to life.
 */
 class LifeStarts {
 	public static void main(String[] args)
-	 throws java.lang.InterruptedException{
-		Life earth = new Life(55);
+			throws java.lang.InterruptedException{
+		Life earth = new Life(20);
 		earth.drawWorld();
+
 		while(true){
-			Thread.sleep(200);
-			earth.nextGeneration();
+			int i = 0;
+			long time = System.currentTimeMillis();
+			while (System.currentTimeMillis() < time + 1000) {
+				i++;
+				earth.nextGeneration();
+
+			}
 			earth.drawWorld();
+			System.out.println("Generations per second =  " + i);
 		}
+
 	}
 }
