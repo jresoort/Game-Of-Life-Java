@@ -2,22 +2,34 @@ public class Life {
 	private int dimension;
 	private boolean[][] world;
 	private long generation;
+
 	Life(int dimension){
 		this.dimension = dimension;
-		createNewWorld();
 		this.generation = 0;
+		createNewWorld();
+	}
+
+	Life(){
+		this.dimension = 10;
+		this.generation = 0;
+		world = new boolean[dimension][dimension];
+
+		world[3][3] = true;
+		world[4][4] = true;
+		world[5][4] = true;
+		world[3][5] = true;
+		world[4][5] = true;
 	}
 
 	// Contains the logic for the starting scenario.
 	// Which cells are alive or dead in generation 0.
 	private void createNewWorld(){
-		boolean[][] newWorld = new boolean[dimension][dimension];
-		for(int row = 0; row < newWorld.length; row++ ){
-			for(int col = 0; col < newWorld[row].length; col++ ){
-				newWorld[row][col] = (Math.random() < 0.3);
+		world = new boolean[dimension][dimension];
+		for(int row = 0; row < world.length; row++ ){
+			for(int col = 0; col < world[row].length; col++ ){
+				world[row][col] = (Math.random() < 0.3);
 			}
 		}
-		world = newWorld;
 	}
 
 	// Draws the world in the terminal.
@@ -30,7 +42,7 @@ public class Life {
 			}
 			System.out.println();
 		}
-		System.out.println("Generation:" + generation);
+		System.out.println("Generation: " + generation);
 	}
 
 	// Create the next generation
@@ -85,5 +97,9 @@ public class Life {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean currentlyAlive(int row, int col) {
+		return world[row][col];
 	}
 }
