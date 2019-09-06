@@ -1,10 +1,9 @@
 import sun.jvm.hotspot.utilities.Assert;
 
+
 public class LifeTest {
 
-    private static final int DIMENSION = 10;
     private static final int TIMES = 1_000_000;
-
 
     public static void main(String[] args)
             throws java.lang.InterruptedException{
@@ -21,7 +20,6 @@ public class LifeTest {
         System.out.println("^^^^^ TEST PASSED ^^^^^");
 
     }
-
 
     public static void loopTimes(Life life, int times) {
         for (int i = 0; i< times; i++) {
