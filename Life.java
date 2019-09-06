@@ -1,6 +1,7 @@
 public class Life {
 	private int dimension;
 	private boolean[][] world;
+	private boolean[][] newWorld;
 	private long generation;
 
 	Life(int dimension){
@@ -13,6 +14,8 @@ public class Life {
 		this.dimension = 10;
 		this.generation = 0;
 		world = new boolean[dimension][dimension];
+		newWorld = new boolean[dimension][dimension];
+
 
 		world[3][3] = true;
 		world[4][4] = true;
@@ -25,6 +28,7 @@ public class Life {
 	// Which cells are alive or dead in generation 0.
 	private void createNewWorld(){
 		world = new boolean[dimension][dimension];
+		newWorld = new boolean[dimension][dimension];
 		for(int row = 0; row < world.length; row++ ){
 			for(int col = 0; col < world[row].length; col++ ){
 				world[row][col] = (Math.random() < 0.3);
@@ -47,13 +51,15 @@ public class Life {
 
 	// Create the next generation
 	public void nextGeneration(){
-		boolean[][] newWorld = new boolean[dimension][dimension];
 		for(int row = 0; row < newWorld.length; row++ ){
 			for(int col = 0; col < newWorld[row].length; col++ ){
 				newWorld[row][col] = isAlive(row, col);
 			}
 		}
+		//recycle world arrays to reduce gc
+		boolean[][] oldWorld = world;
 		world = newWorld;
+		newWorld = oldWorld;
 		generation++;
 	}
 
