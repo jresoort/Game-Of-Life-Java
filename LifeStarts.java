@@ -7,7 +7,7 @@ Any dead cell with exactly three live neighbours cells will come to life.
 class LifeStarts {
 	public static void main(String[] args)
 			throws java.lang.InterruptedException{
-		Life life = new Life(30);
+		Life life = new Life(1000);
 		life.drawWorld();
 
 		loop(life);

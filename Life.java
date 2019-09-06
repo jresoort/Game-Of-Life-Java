@@ -1,8 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class Life {
 	private int dimension;
 	private boolean[][] world;
 	private boolean[][] newWorld;
 	private long generation;
+
+	private static final ExecutorService executor = Executors.newFixedThreadPool(24);
 
 	Life(int dimension){
 		this.dimension = dimension;
@@ -51,11 +60,24 @@ public class Life {
 
 	// Create the next generation
 	public void nextGeneration(){
+		List<Future> futures = new ArrayList<>();
 		for(int row = 0; row < newWorld.length; row++ ){
-			for(int col = 0; col < newWorld[row].length; col++ ){
-				newWorld[row][col] = isAlive(row, col);
-			}
+			final int theRow = row;
+			futures.add(executor.submit(() -> {
+				for (int col = 0; col < newWorld[theRow].length; col++) {
+					newWorld[theRow][col] = isAlive(theRow, col);
+				}
+			}));
 		}
+		futures.stream().forEach(future -> {
+			try {
+				future.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		});
 		//recycle world arrays to reduce gc
 		boolean[][] oldWorld = world;
 		world = newWorld;
